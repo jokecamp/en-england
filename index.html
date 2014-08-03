@@ -16,6 +16,9 @@
   <body>
 
   	<h1>Football Data Explorer</h1>
+    <input id="filename" type="text" value="csv/2010s/2013-14/1-premierleague.csv" style="width:300px;"></input>
+    <button id="loadbutton">Load</button>
+    View browser console for errors.
 
   <div id="placeholder"></div>
 
@@ -27,20 +30,25 @@
   <script>
 
 
-  Papa.parse("1-premierleague.csv", {
-    header: true,
-    delimiter: ",",
-    download: true,
-  	complete: function(results) {
-  		console.log(results);
+  $("#loadbutton").click(function() {
 
-      //Only first parameter is required
-      var jsonHtmlTable = ConvertJsonToTable(results.data, 'jsonTable', 'tablesorter');
+    $("#placeholder").html("");
+    var file = $("#filename").val();
+    Papa.parse(file, {
+      header: true,
+      delimiter: ",",
+      download: true,
+    	complete: function(results) {
+    		console.log(results);
 
-      $("#placeholder").append(jsonHtmlTable);
-      $("#jsonTable").tablesorter();
+        //Only first parameter is required
+        var jsonHtmlTable = ConvertJsonToTable(results.data, 'jsonTable', 'tablesorter');
 
-  	}
+        $("#placeholder").append(jsonHtmlTable);
+        $("#jsonTable").tablesorter();
+
+    	}
+    });
   });
 
   </script>
